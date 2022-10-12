@@ -9,22 +9,11 @@ export interface IForm {
 }
 
 export interface IFormState {
-  forms: Array<IForm>;
+  forms: Map<string, IForm>;
 }
 
 const initialState: IFormState = {
-  forms: [
-    {
-      id: "test-form-initialState",
-      formInputs: [
-        {
-          type: "text",
-          value: "test",
-        },
-      ],
-      isFormValid: false,
-    },
-  ],
+  forms: new Map(),
 };
 
 interface IFormSetter {
@@ -50,6 +39,7 @@ export const formSlice = createSlice({
       // **** ????????????????????????????? ****
       // Not efficient? Looking up ID every time?
       // **** ????????????????????????????? ****
+      // new Map()
       const targetForm = state.forms.find((form) => form.id === id);
 
       if (!targetForm) return state;

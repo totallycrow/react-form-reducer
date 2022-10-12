@@ -19,6 +19,9 @@ const selectTargetForm = (id: string) =>
   );
 
 const Form = ({ fields, id }: IFormProps) => {
+  const fromstate = useForm();
+  const { setInputs } = useFormActions();
+
   const dispatch = useDispatch();
 
   console.log(`Form ${id} loaded!`);
@@ -38,7 +41,7 @@ const Form = ({ fields, id }: IFormProps) => {
 
   // Setup Input Fields For Specific Forms
   useEffect(() => {
-    fields.forEach((item, index) => {
+    const preparedFields = fields.map((item, index) => {
       const formElemement = {
         type: item.type,
         index: index,
@@ -46,8 +49,9 @@ const Form = ({ fields, id }: IFormProps) => {
         id: id,
       };
       console.log(formElemement);
-      dispatch(setInput(formElemement));
     });
+
+    setInputs(preparedFields);
   }, []);
 
   if (!targetForm) return <div>error</div>;
