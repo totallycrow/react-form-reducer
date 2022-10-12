@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
-import { IFormProps } from "../types";
+import { IFormInput, IFormProps } from "../types";
 import { setInput } from "../features/form/formSlice";
 import { onInputChange, setForm } from "../features/form/formSlice";
 import { createSelector } from "@reduxjs/toolkit";
+import { IForm } from "../features/form/formSlice";
 
 // **** ????????????????????????????? ****
 // All the Forms re-rendering even though only one changes at time
@@ -13,8 +14,8 @@ import { createSelector } from "@reduxjs/toolkit";
 // works?
 const selectTargetForm = (id: string) =>
   createSelector(
-    (state: any) => state.form.forms,
-    (form) => form.find((item: any) => item.id === id)
+    (state: RootState) => state.form.forms,
+    (form) => form.find((item: IForm) => item.id === id)
   );
 
 const Form = ({ fields, id }: IFormProps) => {
@@ -22,13 +23,7 @@ const Form = ({ fields, id }: IFormProps) => {
 
   console.log(`Form ${id} loaded!`);
 
-  // TEST CREATE SELECTOR
-  // const formState = useSelector((state: RootState) => state.form.forms);
-  // console.log(useSelector(selectTargetForm("test-form3")));
-
   const targetForm = useSelector(selectTargetForm(id));
-
-  // console.log("STATE", formState);
 
   const newFormItem = {
     id: id,
@@ -55,8 +50,6 @@ const Form = ({ fields, id }: IFormProps) => {
     });
   }, []);
 
-  // const targetForm = formState.find((item) => item.id === id);
-
   if (!targetForm) return <div>error</div>;
 
   return (
@@ -64,7 +57,7 @@ const Form = ({ fields, id }: IFormProps) => {
       Form
       <div>
         <div>{targetForm.id}</div>
-        {targetForm.formInputs.map((item: any, index: any) => (
+        {targetForm.formInputs.map((item: IFormInput, index: number) => (
           <input
             type={item.type}
             value={item.value}

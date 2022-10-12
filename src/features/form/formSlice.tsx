@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { IFormInput } from "../../types";
 
-interface IForm {
+export interface IForm {
   id: string;
   formInputs: Array<IFormInput>;
   isFormValid: boolean;
@@ -45,9 +45,6 @@ export const formSlice = createSlice({
   initialState,
   reducers: {
     onInputChange: (state, action: PayloadAction<IOnFormChangeAction>) => {
-      // const formIndex = action.payload.index;
-      // const value = action.payload.value;
-      // const id = action.payload.id;
       const { index, value, id } = action.payload;
 
       // **** ????????????????????????????? ****
@@ -60,11 +57,6 @@ export const formSlice = createSlice({
       targetForm.formInputs[index].value = value;
     },
     setInput: (state, action: PayloadAction<IFormSetter>) => {
-      // const formIndex = action.payload.index;
-      // const value = action.payload.value;
-      // const type = action.payload.type;
-      // const id = action.payload.id;
-
       const { index, value, type, id } = action.payload;
 
       const newFormItem = {
