@@ -3,19 +3,37 @@ import logo from "./logo.svg";
 import "./App.css";
 import Form from "../src/components/Form";
 
-const sampleFormData = {
-  fields: {
-    email: "",
-    password: "",
-  },
-};
-
 function App() {
   return (
     <div>
       App
       <div>
-        <Form fields={{ email: "test", password: "" }} />
+        {/* SAMPLE FORM 1 */}
+        <Form
+          fields={[
+            { type: "password", value: "email placeholder" },
+            { type: "text", value: "enter your name1" },
+          ]}
+          id="test-form"
+        />
+
+        {/* SAMPLE FORM 2 */}
+        <Form
+          fields={[
+            { type: "email", value: "email placeholder" },
+            { type: "text", value: "enter your name2" },
+          ]}
+          id="test-form2"
+        />
+
+        {/* SAMPLE FORM 3 */}
+        <Form
+          fields={[
+            { type: "email", value: "email placeholder3" },
+            { type: "text", value: "enter your name3" },
+          ]}
+          id="test-form3"
+        />
       </div>
     </div>
   );

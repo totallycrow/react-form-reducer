@@ -1,6 +1,9 @@
+export interface IFormInput {
+  type: string;
+  value: string | number;
+}
+
 export interface IFormProps {
-  fields: {
-    email?: string;
-    password?: string;
-  };
+  fields: Array<IFormInput>;
+  id: string;
 }
