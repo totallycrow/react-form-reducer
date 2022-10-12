@@ -41,7 +41,7 @@ const Form = ({ fields, id }: IFormProps) => {
       console.log(formElemement);
       dispatch(setInput(formElemement));
     });
-  }, [fields, id]);
+  }, []);
 
   const targetForm = formState.find((item) => item.id === id);
 
@@ -54,7 +54,6 @@ const Form = ({ fields, id }: IFormProps) => {
         <div>{targetForm.id}</div>
         {targetForm.formInputs.map((item, index) => (
           <input
-            key={item.value}
             type={item.type}
             value={item.value}
             onChange={(e) =>
