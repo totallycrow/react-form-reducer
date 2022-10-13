@@ -1,28 +1,34 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
-import { IFormInput, IFormProps } from "../types";
-import { setInput } from "../features/form/formSlice";
-import { onInputChange, setForm } from "../features/form/formSlice";
+import {
+  IFormInput,
+  IFormProps,
+  IForm,
+  IFormSetter,
+} from "../features/form/types";
+
+import { onInputChange, setForm, setInput } from "../features/form/formSlice";
 import { createSelector } from "@reduxjs/toolkit";
-import { IForm } from "../features/form/formSlice";
+// import { useFormActions } from "../features/form/hooks";
 
-// **** ????????????????????????????? ****
-// All the Forms re-rendering even though only one changes at time
-// **** ????????????????????????????? ****
-
-// works?
 const selectTargetForm = (id: string) =>
   createSelector(
     (state: RootState) => state.form.forms,
-    (form) => form.find((item: IForm) => item.id === id)
+    (form) => form.get(id)
   );
 
 const Form = ({ fields, id }: IFormProps) => {
-  const fromstate = useForm();
-  const { setInputs } = useFormActions();
+  // const fromstate = useForm();
+  // const { setInputs } = useFormActions();
 
   const dispatch = useDispatch();
+
+  console.log("STATE ");
+  console.log(useSelector((state) => state));
+
+  // @ts-ignore
+  console.log(useSelector((state) => state.form.forms));
 
   console.log(`Form ${id} loaded!`);
 
@@ -49,12 +55,15 @@ const Form = ({ fields, id }: IFormProps) => {
         id: id,
       };
       console.log(formElemement);
+      return formElemement;
     });
 
-    setInputs(preparedFields);
+    // @ts-ignore
+    dispatch(setInput(preparedFields));
   }, []);
 
   if (!targetForm) return <div>error</div>;
+  console.log(targetForm);
 
   return (
     <div>

@@ -1,10 +1,17 @@
-export const useFormActions = () => {
-  const dispatch = useDispatch();
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { IFormInput } from "./types";
+import { onInputChange, setForm, setInput } from "./formSlice";
+import setInputs from "./formSlice";
 
-  const setInputs = useCallback(
-    (preparedFields) => dispatch(setInputs(preparedFields)),
-    [dispatch]
-  );
+// inifite loop?
+// Uncaught InternalError: too much recursion
 
-  return { setInputs };
-};
+// export const useFormActions = () => {
+//   const dispatch = useDispatch();
+
+//   const setInputsAction = (preparedFields: Array<IFormInput>) =>
+//     dispatch(setInputs(state, preparedFields));
+
+//   return { setInputs };
+// };

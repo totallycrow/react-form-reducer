@@ -1,33 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IFormInput } from "../../types";
+import {
+  IFormInput,
+  IFormState,
+  IOnFormChangeAction,
+  IFormSetter,
+  IForm,
+} from "./types";
+import { enableMapSet } from "immer";
 
-export interface IForm {
-  id: string;
-  formInputs: Array<IFormInput>;
-  isFormValid: boolean;
-}
-
-export interface IFormState {
-  forms: Map<string, IForm>;
-}
-
+enableMapSet();
 const initialState: IFormState = {
   forms: new Map(),
 };
-
-interface IFormSetter {
-  index: number;
-  value: number | string;
-  type: string;
-  id: string;
-}
-
-interface IOnFormChangeAction {
-  index: number;
-  value: number | string;
-  id: string;
-}
 
 export const formSlice = createSlice({
   name: "form",
@@ -36,33 +21,35 @@ export const formSlice = createSlice({
     onInputChange: (state, action: PayloadAction<IOnFormChangeAction>) => {
       const { index, value, id } = action.payload;
 
-      // **** ????????????????????????????? ****
-      // Not efficient? Looking up ID every time?
-      // **** ????????????????????????????? ****
-      // new Map()
-      const targetForm = state.forms.find((form) => form.id === id);
+      const targetForm = state.forms.get(id);
 
       if (!targetForm) return state;
 
       targetForm.formInputs[index].value = value;
     },
     setInput: (state, action: PayloadAction<IFormSetter>) => {
-      const { index, value, type, id } = action.payload;
+      const inputArray = action.payload;
 
-      const newFormItem = {
-        type: type,
-        value: value,
-      };
+      // const newFormItem = {
+      //   type: type,
+      //   value: value,
+      // };
 
-      const targetForm = state.forms.find((form) => form.id === id);
+      // console.log("********** SET INPUT **************");
+      // console.log(action.payload);
+      // console.log(action.payload[0].id);
+      // console.log(state);
 
-      if (!targetForm) return state;
+      const targetForm = state.forms.get(inputArrayid);
+      // console.log(targetForm);
 
-      targetForm.formInputs[index] = newFormItem;
+      // if (!targetForm) return state;
+
+      // targetForm.formInputs] = newFormItem;
     },
 
     setForm: (state, action: PayloadAction<IForm>) => {
-      state.forms.push(action.payload);
+      state.forms.set(action.payload.id, action.payload);
     },
   },
 });
