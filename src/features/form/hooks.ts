@@ -4,14 +4,17 @@ import { IFormInput } from "./types";
 import { onInputChange, setForm, setInput } from "./formSlice";
 import setInputs from "./formSlice";
 
-// inifite loop?
-// Uncaught InternalError: too much recursion
+export const useFormActions = () => {
+  const dispatch = useDispatch();
 
-// export const useFormActions = () => {
-//   const dispatch = useDispatch();
+  const handleInputsAction = (preparedFields: any) =>
+    dispatch(setInput(preparedFields));
 
-//   const setInputsAction = (preparedFields: Array<IFormInput>) =>
-//     dispatch(setInputs(state, preparedFields));
+  const handleInputChange = (preparedFields: any) =>
+    dispatch(onInputChange(preparedFields));
 
-//   return { setInputs };
-// };
+  const handleSetForm = (preparedFields: any) =>
+    dispatch(setForm(preparedFields));
+
+  return { handleInputsAction, handleInputChange, handleSetForm };
+};

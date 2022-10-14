@@ -8,9 +8,8 @@ import {
   IFormSetter,
 } from "../features/form/types";
 
-import { onInputChange, setForm, setInput } from "../features/form/formSlice";
 import { createSelector } from "@reduxjs/toolkit";
-// import { useFormActions } from "../features/form/hooks";
+import { useFormActions } from "../features/form/hooks";
 
 const selectTargetForm = (id: string) =>
   createSelector(
@@ -19,16 +18,9 @@ const selectTargetForm = (id: string) =>
   );
 
 const Form = ({ fields, id }: IFormProps) => {
-  // const fromstate = useForm();
-  // const { setInputs } = useFormActions();
-
   const dispatch = useDispatch();
-
-  console.log("STATE ");
-  console.log(useSelector((state) => state));
-
-  // @ts-ignore
-  console.log(useSelector((state) => state.form.forms));
+  const { handleInputsAction, handleInputChange, handleSetForm } =
+    useFormActions();
 
   console.log(`Form ${id} loaded!`);
 
@@ -42,7 +34,7 @@ const Form = ({ fields, id }: IFormProps) => {
 
   // Setup Main Form Containers
   useEffect(() => {
-    dispatch(setForm(newFormItem));
+    dispatch(handleSetForm(newFormItem));
   }, []);
 
   // Setup Input Fields For Specific Forms
@@ -58,8 +50,7 @@ const Form = ({ fields, id }: IFormProps) => {
       return formElemement;
     });
 
-    // @ts-ignore
-    dispatch(setInput(preparedFields));
+    dispatch(handleInputsAction(preparedFields));
   }, []);
 
   if (!targetForm) return <div>error</div>;
@@ -76,7 +67,11 @@ const Form = ({ fields, id }: IFormProps) => {
             value={item.value}
             onChange={(e) =>
               dispatch(
-                onInputChange({ index: index, value: e.target.value, id: id })
+                handleInputChange({
+                  index: index,
+                  value: e.target.value,
+                  id: id,
+                })
               )
             }
           ></input>
